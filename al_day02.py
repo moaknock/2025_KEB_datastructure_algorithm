@@ -1,71 +1,61 @@
-import random
-
-class Node:
-    def __init__(self,data,next=None):
-        self.data = data
-        self.next = next
-
-class LinkedList:
-    def __init__(self):
-        self.head = None
-
-    def append(self,data):
-        if not self.head:
-            self.head = Node(data)
-            return
-        current = self. head
-        while current.next: # if next node exist
-            current = current.next #move
-        current.next = Node(data)
-
-    def search(self,target) -> bool:
-        current = self.head
-        while current.next:
-            if current.data == target:
-                return True
-            else:
-                current = current.next
+def is_queue_full() :
+    if rear == size - 1:
+        return True
+    else:
         return False
 
-    def remove(self,target):
-        if self.head == target:
-            self.head = self.head.next
-            print("!")
-            return
-        current = self.head
-        privious = None
-        while current:
-            if current.data == target:
-                privious.next = current.next
-                break # !
-            else: #move
-                privious = current
-                current = current.next
-            #print("선두노드삭제")
+def is_queue_empty() :
+    global size, queue, front, rear
+    if front == rear:
+        return True
+    else :
+        return False
 
-    def __str__(self):
-        node = self.head
-        while node is not None:
-            print(node.data)
-            node = node.next
-        return "end"
+def en_queue(data) :
+    global size, queue, front, rear
+    if is_queue_full():
+        print("큐가 꽉 찼습니다.")
+        return
+    rear += 1
+    queue[rear] = data
 
-if __name__ == "__main__":
-    l = LinkedList()
-    l.append(7)
-    l.append(-11)
-    l.append(8)
-    # i = 0
-    print(1)
-    # l.remove(7)
-    # l.remove(-11)
-    l.remove(8)
-    print(1)
+def de_queue() :
+    global size, queue, front, rear
+    if is_queue_empty():
+        print("큐가 비었습니다.")
+        return None
+    front += 1
+    data = queue[front]
+    queue[front] = None
+    return data
 
-    # while i < 20:
-    #     n = random.randint(1,20)
-    #     l.append(n)
-    #     print(n,end= ' ')
-    #     i = i + 1
-    # # print(1)
-    # print(l.search(10))
+def peek() :
+    global size, queue, front, rear
+    if is_queue_empty():
+        print("큐가 비었습니다.")
+        return None
+    return queue[front+1]
+
+
+size = int(input("큐의 크기를 입력 : "))
+queue = [None for _ in range(size)]
+front = rear = -1
+
+if __name__ == "__main__" :
+    while True:
+        menu = input("삽입(E)/삭제(D)/확인(P)/종료(X) : ")
+        if menu == 'X' or menu == 'x':
+            break
+        elif menu== 'E' or menu == 'e' :
+            data = input("입력할 데이터 : ")
+            en_queue(data)
+            print(queue)
+        elif menu== 'D' or menu == 'd' :
+            print("삭제된 데이터 : ", de_queue())
+            print(queue)
+        elif menu== 'P' or menu == 'p' :
+            print("확인된 데이터 : ", peek())
+            print(queue)
+        else:
+            print("입력이 잘못됨")
+    print("프로그램 종료!")
