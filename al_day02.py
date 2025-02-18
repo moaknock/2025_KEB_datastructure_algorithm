@@ -2,14 +2,7 @@ def is_queue_full() :
     global size,queue,front,rear
     if rear != (size - 1):
         return False
-    elif (front == -1) and (rear == size -1):
-        return True
     else:
-        for i in range(front + 1, size):
-            queue[i-1] = queue[i]
-            queue[i] = None
-        front = front - 1
-        rear = rear - 1
         return False
 
 def is_queue_empty() :
